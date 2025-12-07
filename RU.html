@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ambaria High School Reunion Registration</title>
+<style>
+body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+form { background: white; padding: 20px; border-radius: 10px; width: 400px; margin: auto; }
+label { font-weight: bold; }
+input, select, textarea {
+  width: 100%; padding: 10px; margin: 8px 0;
+  border: 1px solid #ccc; border-radius: 6px;
+}
+button {
+  background: #0080ff; color: white; padding: 12px;
+  border: none; border-radius: 8px; width: 100%; font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center;">আম্বাড়ীয়া উচ্চ বিদ্যালয়<br>প্রাক্তন ছাত্র-ছাত্রী পুনর্মিলনী রেজিস্ট্রেশন</h2>
+
+<form id="regForm">
+  <label>নাম:</label>
+  <input type="text" name="name" required>
+
+  <label>পাসের বছর (1963–2025):</label>
+  <input type="number" name="year" min="1963" max="2025" required>
+
+  <label>মোবাইল নাম্বার:</label>
+  <input type="text" name="mobile" required>
+
+  <label>ইমেইল:</label>
+  <input type="email" name="email" required>
+
+  <label>ব্যাচ (ঐচ্ছিক):</label>
+  <input type="text" name="batch">
+
+  <label>ঠিকানা:</label>
+  <textarea name="address"></textarea>
+
+  <button type="submit">রেজিস্ট্রেশন সাবমিট</button>
+</form>
+
+<p id="msg" style="text-align:center; font-weight:bold; margin-top:15px;"></p>
+
+<script>
+document.getElementById("regForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = {
+    name: this.name.value,
+    year: this.year.value,
+    mobile: this.mobile.value,
+    email: this.email.value,
+    batch: this.batch.value,
+    address: this.address.value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxyV-JqvBWqOrfylOljktuNWANMEv5USvpVB2pft5MKHOEnuU8Uw0X-jT-G78eLFUCq/exec", {
+    method: "POST",
+    body: JSON.stringify(formData)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.status === "success"){
+      document.getElementById("msg").innerHTML = "সফলভাবে রেজিস্ট্রেশন সম্পন্ন হয়েছে!";
+      document.getElementById("msg").style.color = "green";
+      document.getElementById("regForm").reset();
+    } else {
+      document.getElementById("msg").innerHTML = data.message;
+      document.getElementById("msg").style.color = "red";
+    }
+  });
+});
+</script>
+
+</body>
+</html>
